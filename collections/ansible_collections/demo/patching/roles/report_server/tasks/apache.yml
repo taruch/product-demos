@@ -2,6 +2,10 @@
 - name: Include system variables
   ansible.builtin.include_vars: "{{ ansible_system }}.yml"
 
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
 - name: Permit traffic in default zone for http service
   ansible.posix.firewalld:
     service: http
@@ -9,6 +13,7 @@
     state: enabled
     immediate: true
   check_mode: false
+  when: "'firewalld' in ansible_facts.packages"
 
 - name: Install httpd package
   ansible.builtin.yum:
