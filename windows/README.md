@@ -25,8 +25,19 @@ This category of demos shows examples of Windows Server operations and managemen
 
 ## Suggested Usage
 
+For ANY of these to work you will need to be able to connect to the Windows hosts.  Ensure that the below variables have been added
+to the variables section of the `os_windows` group in the `Demo Inventory`. Be aware that if you delete all of the Windows hosts in AWS, that the group will go away, and so will the variables.\
+--- \
+ansible_connection: winrm \
+ansible_port: 5986 \
+ansible_winrm_server_cert_validation: ignore \
+ansible_winrm_transport: credssp
+
+**WINDOWS / Patching** - To successfully run the Patching template and produce a report, you will also need to build out a host called win1. Ideally using the cloud templates in AWS because this will enable you to show off another set of templates, but also use the `aws` inventory source in the `Demo Inventory`.
+
 **WINDOWS / Create Active Directory Domain** - This job can take some to complete. It is recommended to run ahead of time if you would like to demo creating a helpdesk user.
 
 **WINDOWS / Helpdesk new user portal** - This job is dependant on the Create Active Directory Domain completing before users can be created.
 
 **WINDOWS / Join Active Directory Domain** - This job is dependant on the Create Active Directory Domain completing before computers can be joined.
+
