@@ -6,39 +6,39 @@ user_message:
 
 # "!unsafe" used to pass raw jinja2 through to the injector definition, see
 # https://github.com/redhat-cop/controller_configuration/tree/devel/roles/credential_types#formating-injectors
-controller_credential_types:
-  - name: Insights Collection
-    kind: cloud
-    inputs:
-      fields:
-        - id: insights_user
-          type: string
-          label: Insights User
-        - id: insights_password
-          type: string
-          label: Insights Password
-          secret: true
-    injectors:
-      env:
-        INSIGHTS_USER: !unsafe '{{ insights_user }}'
-        INSIGHTS_PASSWORD: !unsafe '{{ insights_password }}'
+# controller_credential_types:
+  # - name: Insights Collection
+  #   kind: cloud
+  #   inputs:
+  #     fields:
+  #       - id: insights_user
+  #         type: string
+  #         label: Insights User
+  #       - id: insights_password
+  #         type: string
+  #         label: Insights Password
+  #         secret: true
+  #   injectors:
+  #     env:
+  #       INSIGHTS_USER: !unsafe '{{ insights_user }}'
+  #       INSIGHTS_PASSWORD: !unsafe '{{ insights_password }}'
 
-controller_credentials:
-  - name: Insights Inventory
-    credential_type: Insights Collection
-    organization: Default
-    state: exists
-    inputs:
-      insights_user: REPLACEME
-      insights_password: REPLACEME
+# controller_credentials:
+  # - name: Insights Inventory
+  #   credential_type: Insights Collection
+  #   organization: Default
+  #   state: exists
+  #   inputs:
+  #     insights_user: REPLACEME
+  #     insights_password: REPLACEME
 
-controller_inventory_sources:
-  - name: Insights Inventory
-    inventory: Demo Inventory
-    source: scm
-    source_project: Ansible official demo project
-    source_path: linux/inventory.insights.yml
-    credential: Insights Inventory
+# controller_inventory_sources:
+#   - name: Insights Inventory
+#     inventory: Demo Inventory
+#     source: scm
+#     source_project: Ansible official demo project
+#     source_path: linux/inventory.insights.yml
+#     credential: Insights Inventory
 
 controller_templates:
   - name: "LINUX / Register with Insights"
