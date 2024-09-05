@@ -1,7 +1,7 @@
 ---
 - name: Backup Devices
   hosts: routers
-  gather_facts: false
+  gather_facts: true
   vars:
     report_server: reports
     web_path: /var/www/html/backups/
@@ -15,6 +15,11 @@
         type: full
         data_store:
           local: "./network_local_backup/network"
+      register: backup_result
+
+    - name: Debug result
+      ansible.builtin.debug:
+        msg: "{{ backup_result.backup_path }}"
 
     - name: Copy backup to backup server
       block:
@@ -26,7 +31,7 @@
 
         - name: Copy backup file
           ansible.builtin.copy:
-            src: "./network_local_backup/network"
+            src: "{{ backup_result.backup_path }}"
             dest: "{{ web_path }}"
           delegate_to: "{{ report_server }}"
 
