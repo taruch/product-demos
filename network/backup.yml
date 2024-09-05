@@ -1,7 +1,7 @@
 ---
 - name: Backup Devices
   hosts: routers
-  gather_facts: true
+  gather_facts: false
   vars:
     report_server: reports
     web_path: /tmp/backup
@@ -15,26 +15,25 @@
         operation: backup
         type: full
         data_store:
-          local: "./network_local_backup/network"
-      register: backup_result
+          local: "./network_local_backup"
 
-    - name: Debug result
-      ansible.builtin.debug:
-        msg: "{{ backup_result.backup_path }}"
+#     - name: Debug result
+#       ansible.builtin.debug:
+#         msg: "{{ ansible_facts }}"
 
-    - name: Copy backup to backup server
-      become: true
-      delegate_to: "{{ report_server }}"
-      block:
-        - name: Create a backup directory if it does not exist
-          ansible.builtin.file:
-            path: "{{ web_path }}"
-            state: directory
-            mode: '0755'
+#     - name: Copy backup to backup server
+#       become: true
+#       delegate_to: "{{ report_server }}"
+#       block:
+#         - name: Create a backup directory if it does not exist
+#           ansible.builtin.file:
+#             path: "{{ web_path }}"
+#             state: directory
+#             mode: '0755'
 
-        - name: Copy backup file
-          ansible.builtin.copy:
-            src: "{{ backup_result.backup_path }}"
-            dest: "{{ web_path }}"
+#         - name: Copy backup file
+#           ansible.builtin.copy:
+#             src: "{{ backup_result.backup_path }}"
+#             dest: "{{ web_path }}"
 
-...
+# ...
