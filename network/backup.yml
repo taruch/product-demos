@@ -1,0 +1,33 @@
+---
+- name: Backup Devices
+  hosts: routers
+  gather_facts: false
+  vars:
+    report_server: reports
+    web_path: /var/www/html/backups/
+
+  tasks:
+    - name: Network Backup and Resource Manager
+      ansible.builtin.include_role:
+        name: network.backup.run
+      vars:
+        operation: backup
+        type: full
+        data_store:
+          local: "./network_local_backup/network"
+
+    - name: Copy backup to backup server
+      block:
+        - name: Create a backup directory if it does not exist
+          ansible.builtin.file:
+            path: "{{ web_path }}"
+            state: directory
+            mode: '0755'
+
+        - name: Copy backup file
+          ansible.builtin.copy:
+            src: "./network_local_backup/network"
+            dest: "{{ web_path }}"
+          delegate_to: "{{ report_server }}"
+
+...
