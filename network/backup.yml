@@ -22,6 +22,7 @@
         msg: "{{ backup_result.backup_path }}"
 
     - name: Copy backup to backup server
+      become: true
       block:
         - name: Create a backup directory if it does not exist
           ansible.builtin.file:
