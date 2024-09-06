@@ -4,7 +4,7 @@
   gather_facts: false
   vars:
     report_server: reports
-    web_path: /tmp/backup
+    # web_path: /tmp/backup
     web_path: /var/www/html/backups/
 
   tasks:
