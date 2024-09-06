@@ -27,6 +27,9 @@
       become: true
       delegate_to: "{{ report_server }}"
       block:
+        - name: Get facts
+          ansible.builtin.setup:
+
         - name: Build report server
           ansible.builtin.include_role:
             name: "{{ item }}"
