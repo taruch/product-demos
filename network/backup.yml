@@ -5,17 +5,15 @@
   vars:
     report_server: reports
     web_path: /tmp/backup
-    # web_path: /var/www/html/backups/
+    web_path: /var/www/html/backups/
 
   tasks:
-    - name: Network Backup and Resource Manager
+    - name: Build report server
       ansible.builtin.include_role:
-        name: network.backup.run
-      vars:
-        operation: backup
-        type: full
-        data_store:
-          local: "/tmp/network_local_backup"
+        name: "{{ item }}"
+      loop:
+        - demo.patching.report_server
+        - demo.patching.build_report_network
 
     - name: list files in /tmp
       delegate_to: localhost
@@ -23,23 +21,28 @@
       ansible.builtin.command:
         cmd: ls /tmp/network_local_backup
 
-#     - name: Debug result
-#       ansible.builtin.debug:
-#         msg: "{{ ansible_facts }}"
+    - name: Copy backup to backup server
+      become: true
+      delegate_to: "{{ report_server }}"
+      block:
+        - name: Network Backup and Resource Manager
+          ansible.builtin.include_role:
+            name: network.backup.run
+          vars:
+            operation: backup
+            type: full
+            data_store:
+              local: "/tmp/network_local_backup"
 
-#     - name: Copy backup to backup server
-#       become: true
-#       delegate_to: "{{ report_server }}"
-#       block:
-#         - name: Create a backup directory if it does not exist
-#           ansible.builtin.file:
-#             path: "{{ web_path }}"
-#             state: directory
-#             mode: '0755'
+        - name: Create a backup directory if it does not exist
+          ansible.builtin.file:
+            path: "{{ web_path }}"
+            state: directory
+            mode: '0755'
 
-#         - name: Copy backup file
-#           ansible.builtin.copy:
-#             src: "{{ backup_result.backup_path }}"
-#             dest: "{{ web_path }}"
+        - name: Copy backup file
+          ansible.builtin.copy:
+            src: "{{ backup_result.backup_path }}"
+            dest: "{{ web_path }}"
 
 # ...
