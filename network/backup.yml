@@ -8,12 +8,14 @@
     web_path: /var/www/html/backups/
 
   tasks:
-    - name: Build report server
+    - name: Network Backup and Resource Manager
       ansible.builtin.include_role:
-        name: "{{ item }}"
-      loop:
-        - demo.patching.report_server
-        - demo.patching.build_report_network
+        name: network.backup.run
+      vars:
+        operation: backup
+        type: full
+        data_store:
+          local: "/tmp/network_local_backup"
 
     - name: list files in /tmp
       delegate_to: localhost
@@ -25,14 +27,12 @@
       become: true
       delegate_to: "{{ report_server }}"
       block:
-        - name: Network Backup and Resource Manager
+        - name: Build report server
           ansible.builtin.include_role:
-            name: network.backup.run
-          vars:
-            operation: backup
-            type: full
-            data_store:
-              local: "/tmp/network_local_backup"
+            name: "{{ item }}"
+          loop:
+            - demo.patching.report_server
+            - demo.patching.build_report_network
 
         - name: Create a backup directory if it does not exist
           ansible.builtin.file:
@@ -45,4 +45,4 @@
             src: "{{ backup_result.backup_path }}"
             dest: "{{ web_path }}"
 
-# ...
+...
