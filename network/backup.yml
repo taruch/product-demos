@@ -42,7 +42,7 @@
 
         - name: Copy backup file
           ansible.builtin.copy:
-            src: "{{ backup_result.backup_path }}"
+            src: "/tmp/network_local_backup/{{ inventory_hostname }}.txt"
             dest: "{{ web_path }}"
 
 ...
