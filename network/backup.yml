@@ -46,9 +46,9 @@
             state: directory
             mode: '0755'
 
-    - name: Copy backup file
-      ansible.builtin.copy:
-        src: "/tmp/network_local_backup/{{ inventory_hostname }}.txt"
-        dest: "{{ web_path }}"
+        - name: Copy backup file
+          ansible.builtin.copy:
+            src: "/tmp/network_local_backup/{{ inventory_hostname }}.txt"
+            dest: "{{ web_path }}"
 
 ...
