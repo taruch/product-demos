@@ -15,7 +15,13 @@
         operation: backup
         type: full
         data_store:
-          local: "./network_local_backup"
+          local: "/tmp/network_local_backup"
+
+    - name: list files in /tmp
+      delegate_to: localhost
+      run_once: true
+      ansible.builtin.command:
+        cmd: ls /tmp/network_local_backup
 
 #     - name: Debug result
 #       ansible.builtin.debug:
