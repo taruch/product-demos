@@ -5,7 +5,7 @@
   vars:
     report_server: reports
     # web_path: /tmp/backup
-    web_path: /var/www/html/backups/network/
+    backup_path: /var/www/html/backups/network/
 
   tasks:
     - name: Network Backup and Resource Manager
@@ -42,13 +42,13 @@
         - name: Create a backup directory if it does not exist
           run_once: true
           ansible.builtin.file:
-            path: "{{ web_path }}"
+            path: "{{ backup_path }}"
             state: directory
             mode: '0755'
 
         - name: Copy backup file
           ansible.builtin.copy:
             src: "/tmp/network_local_backup/{{ inventory_hostname }}.txt"
-            dest: "{{ web_path }}"
+            dest: "{{ backup_path }}"
 
 ...
