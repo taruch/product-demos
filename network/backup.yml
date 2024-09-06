@@ -5,7 +5,7 @@
   vars:
     report_server: reports
     # web_path: /tmp/backup
-    web_path: /var/www/html/backups/
+    web_path: /var/www/html/backups/network/
 
   tasks:
     - name: Network Backup and Resource Manager
@@ -23,14 +23,16 @@
       ansible.builtin.command:
         cmd: ls /tmp/network_local_backup
 
-    - name: Copy backup to backup server
+    - name: Create backup server
       become: true
       delegate_to: "{{ report_server }}"
       block:
         - name: Get facts
+          run_once: true
           ansible.builtin.setup:
 
         - name: Build report server
+          run_once: true
           ansible.builtin.include_role:
             name: "{{ item }}"
           loop:
@@ -38,14 +40,15 @@
             - demo.patching.build_report_network
 
         - name: Create a backup directory if it does not exist
+          run_once: true
           ansible.builtin.file:
             path: "{{ web_path }}"
             state: directory
             mode: '0755'
 
-        - name: Copy backup file
-          ansible.builtin.copy:
-            src: "/tmp/network_local_backup/{{ inventory_hostname }}.txt"
-            dest: "{{ web_path }}"
+    - name: Copy backup file
+      ansible.builtin.copy:
+        src: "/tmp/network_local_backup/{{ inventory_hostname }}.txt"
+        dest: "{{ web_path }}"
 
 ...
