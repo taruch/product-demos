@@ -48,7 +48,7 @@
             name: "{{ item }}"
           loop:
             - demo.patching.report_server
-            - demo.patching.build_report_network
+            # - demo.patching.build_report_network
 
         - name: Create a backup directory if it does not exist
           run_once: true
