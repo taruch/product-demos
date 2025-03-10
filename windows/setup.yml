@@ -8,6 +8,55 @@ controller_projects:
     scm_type: git
     scm_url: 'https://github.com/ansible/awx-facts-playbooks.git'
 
+controller_credential_types:
+  - name: Microsoft AD LDAP
+    kind: cloud
+    inputs:
+      fields:
+        - id: host
+          label: Host (FQDN of AD Server)
+          type: string
+        - id: username
+          label: Username
+          type: string
+        - id: password
+          label: Password
+          secret: true
+          type: string
+      required:
+        - host
+        - username
+        - password
+    injectors:
+      env:
+        MICROSOFT_AD_LDAP_SERVER: !unsafe '{{ host }}'
+        MICROSOFT_AD_LDAP_USERNAME: !unsafe '{{ username }}'
+        MICROSOFT_AD_LDAP_PASSWORD: !unsafe '{{ password }}'
+
+
+controller_credentials:
+  - name: Microsoft AD LDAP
+    credential_type: Microsoft AD LDAP
+    organization: Default
+    update_secrets: false
+    state: exists
+    inputs:
+      host: REPLACEME
+      username: REPLACEME
+      password: REPLACEME
+
+
+controller_inventory_sources:
+  - name: Microsoft AD Inventory
+    organization: Default
+    source: project
+    source_project: Ansible Product Demos
+    source_path: windows/microsoft.ad.ldap.yml
+    inventory: Demo Inventory
+    credential: Microsoft AD LDAP
+    overwrite: true
+
+
 controller_templates:
   - name: "WINDOWS / Install IIS"
     job_type: run
