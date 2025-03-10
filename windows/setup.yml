@@ -8,6 +8,11 @@ controller_projects:
     scm_type: git
     scm_url: 'https://github.com/ansible/awx-facts-playbooks.git'
 
+
+controller_execution_environments:
+  - name: Microsoft Execution Environment
+    image: quay.io/truch/microsoft:1.0
+
 controller_credential_types:
   - name: Microsoft AD LDAP
     kind: cloud
