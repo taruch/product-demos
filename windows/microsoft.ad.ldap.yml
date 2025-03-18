@@ -1,18 +1,21 @@
 ---
 plugin: microsoft.ad.ldap
-server: '{{ lookup("ansible.builtin.env", "MICROSOFT_AD_LDAP_SERVER" }}'
-username: '{{ lookup("ansible.builtin.env", "MICROSOFT_AD_LDAP_USERNAME" }}'
-password: '{{ lookup("ansible.builtin.env", "MICROSOFT_AD_LDAP_PASSWORD" }}'
+# server: '{{ lookup("ansible.builtin.env", "MICROSOFT_AD_LDAP_SERVER" }}'
+# username: '{{ lookup("ansible.builtin.env", "MICROSOFT_AD_LDAP_USERNAME" }}'
+# password: '{{ lookup("ansible.builtin.env", "MICROSOFT_AD_LDAP_PASSWORD" }}'
 auth_protocol: negotiate
 encrypt: true
 
 attributes:
   OperatingSystem:
-operating_system:
+    operating_system:
+  pwdLastSet:
+    password_last_set_int: this
+    password_last_set_datetime: this | microsoft.ad.as_datetime
   location:
   memberOf:
-computer_membership: this | map("regex_search", '^CN=(?P<name>.+?)((?<!\\),)', '\g<name>') | flatten
-primary_group: this | map("regex_search", '^CN=(?P<name>.+?)((?<!\\),)', '\g<name>') | flatten
+    computer_membership: this | map("regex_search", '^CN=(?P<name>.+?)((?<!\\),)', '\g<name>') | flatten
+    primary_group: this | map("regex_search", '^CN=(?P<name>.+?)((?<!\\),)', '\g<name>') | flatten
 groups:
   windows: true
   production: '"Production" in computer_membership'
