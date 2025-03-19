@@ -5,21 +5,29 @@ plugin: microsoft.ad.ldap
 # password: '{{ lookup("ansible.builtin.env", "MICROSOFT_AD_LDAP_PASSWORD" }}'
 auth_protocol: negotiate
 encrypt: true
-tls_mode: ldaps
+#tls_mode: ldaps
 
 attributes:
+  comment: this
+  objectSid:
+    computer_sid:
   OperatingSystem:
     operating_system:
+  operatingSystemVersion:
+  DistinguishedName:
+    microsoft_ad_distinguished_name: this
   pwdLastSet:
-    password_last_set_int: this
     password_last_set_datetime: this | microsoft.ad.as_datetime
   location:
   memberOf:
-    computer_membership: this | map("regex_search", '^CN=(?P<name>.+?)((?<!\\),)', '\g<name>') | flatten
-    primary_group: this | map("regex_search", '^CN=(?P<name>.+?)((?<!\\),)', '\g<name>') | flatten
+    computer_membership: this | microsoft.ad.parse_dn | map(attribute="0.1")
+    # computer_membership: this | map("regex_search", '^CN=(?P<name>.+?)((?<!\\),)', '\g<name>') | flatten
+
+
 groups:
   windows: true
   production: '"Production" in computer_membership'
+
 keyed_groups:
 - key: operating_system | lower
   prefix: os
