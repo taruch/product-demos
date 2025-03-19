@@ -5,6 +5,7 @@ plugin: microsoft.ad.ldap
 # password: '{{ lookup("ansible.builtin.env", "MICROSOFT_AD_LDAP_PASSWORD" }}'
 auth_protocol: negotiate
 encrypt: true
+tls_mode: ldaps
 
 attributes:
   OperatingSystem:
