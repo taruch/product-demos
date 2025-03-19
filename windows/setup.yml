@@ -491,3 +491,4 @@ controller_workflows:
         extra_data:
           _hosts: purpose_domain_controller
           ps_script: "Get-ADComputer -Filter * | Select-Object -Property 'Name'"
+
