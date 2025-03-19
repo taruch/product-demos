@@ -1,2 +1,0 @@
-object_name: My, Contact
-object_dn: CN=My\, Contact,{{ setup_domain_info.output[0].defaultNamingContext }}

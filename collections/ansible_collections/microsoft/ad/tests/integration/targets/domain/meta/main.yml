@@ -1,4 +1,0 @@
-dependencies:
-- name: setup_domain
-  vars:
-    run_domain_test: true
