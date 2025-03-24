@@ -40,3 +40,13 @@ We are currently investigating an intermittent connectivity issue related to the
 **WINDOWS / Helpdesk new user portal** - This job is dependant on the Create Active Directory Domain completing before users can be created.
 
 **WINDOWS / Join Active Directory Domain** - This job is dependant on the Create Active Directory Domain completing before computers can be joined.
+
+**Setup Microsoft AD LDAP Dynamic Inventory Source** - 
+  This dynamic inventory source requires that the "Setup Active Directory Domain Workflow Job Template has been run. To setup the Inventory Source, you will need to update the "Microsoft AD LDAP" Credential, which requires the FQDN of the AD host (dc01), and the username and password from the Product Demos instance.
+  
+  To find the FQDN for the dc01 host, go to the Demo Inventory -> Hosts -> dco1 and look at the variables for the host, and look for *public_dns_name*.
+
+  Host (FQDN of AD Server): ec2-{host}.us-east-2.compute.amazonaws.com
+  Username: ec2-user
+  Password: This is the `Automation Controller Admin Password`
+  
