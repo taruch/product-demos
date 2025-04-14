@@ -33,7 +33,7 @@ We are currently investigating an intermittent connectivity issue related to the
 
 ## Suggested Usage
 
-**Setup Active Directory Domain** - One-click domain setup, infrastructure included.
+**Setup Active Directory Domain** - One-click domain setup, infrastructure included. This is the easy button - use it.
 
 **WINDOWS / Create Active Directory Domain** - This job can take some to complete. It is recommended to run ahead of time if you would like to demo creating a helpdesk user.
 
@@ -42,11 +42,16 @@ We are currently investigating an intermittent connectivity issue related to the
 **WINDOWS / Join Active Directory Domain** - This job is dependant on the Create Active Directory Domain completing before computers can be joined.
 
 **Setup Microsoft AD LDAP Dynamic Inventory Source** - 
-  This dynamic inventory source requires that the "Setup Active Directory Domain Workflow Job Template has been run. To setup the Inventory Source, you will need to update the "Microsoft AD LDAP" Credential, which requires the FQDN of the AD host (dc01), and the username and password from the Product Demos instance.
-  
-  To find the FQDN for the dc01 host, go to the Demo Inventory -> Hosts -> dco1 and look at the variables for the host, and look for *public_dns_name*.
+  This dynamic inventory source requires that the "Setup Active Directory Domain Workflow Job Template has been run, which requires that at a minimum the ‘Product Demos | Single-demo setup’ (Select Windows) has been run. After these have been run, you will have a “Microsoft AD Inventory” source added to the Demo Inventory.
 
+  Click on the Inventory Source, and you will see that it uses the “Microsoft AD LDAP” credential that was added when the Windows Demo setup was run (dependency above). Click on the ‘Microsoft AD LDAP’ credential, and select the “Edit credential” link on the upper right of the screen.
   Host (FQDN of AD Server): ec2-{host}.us-east-2.compute.amazonaws.com
   Username: ec2-user
   Password: This is the `Automation Controller Admin Password`
-  
+
+  Update the following three items:
+  Host (FQDN of AD Server): Update using the public_dns_name from the dc01 server
+
+  To find the FQDN for the dc01 host, go to the Demo Inventory -> Hosts -> dco1 and look at the variables for the host, and look for *public_dns_name*.
+
+  Save the updated credential. Go back to the Inventory source (hit back button in browser). Click the ‘Launch inventory update’ in the upper right of the screen. If you now go back to the “Demo Inventory” and go to the hosts tab you will now have upper and lower case instances of the Windows servers (this was left this way to show the “new” hosts).  If you go to groups, you will see you have new groups created and populated.
