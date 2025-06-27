@@ -88,7 +88,6 @@ controller_templates:
           default: routers
           required: true
           choices:
-            - sandbox-iosxe-latest-1.cisco.com
             - sandbox-iosxr-1.cisco.com
             - sandbox-nxos-1.cisco.com
             - routers
