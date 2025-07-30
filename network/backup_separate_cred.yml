@@ -11,7 +11,7 @@
       ansible.builtin.include_role:
         name: network.backup.run
       vars:  # noqa var-naming[no-role-prefix]
-        ansible_user: "{{ router_user }}"
+        ansible_user: "{{ router_username }}"
         ansible_password: "{{ router_password }}"
         operation: backup
         type: full
