@@ -7,16 +7,17 @@
     backup_dir: "/tmp/network_backups"
 
   tasks:
-    - name: Network Backup and Resource Manager
-      ansible.builtin.include_role:
-        name: network.backup.run
+
+    - name: Backup cisco ios configuration
       vars:  # noqa var-naming[no-role-prefix]
-        ansible_user: "{{ router_username }}"
-        ansible_password: "{{ router_password }}"
-        operation: backup
-        type: full
-        data_store:
-          local: "{{ backup_dir }}"
+        ansible_user: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
+        ansible_password: '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
+      cisco.ios.ios_config:
+        backup: true
+        backup_options:
+          dir_path: /tmp/
+          filename: "{{ inventory_hostname }}.txt"
+      register: config_output
 
     # This task removes the Current configuration... from the top of IOS routers show run
     - name: Remove non config lines - regexp
