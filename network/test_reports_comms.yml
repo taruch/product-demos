@@ -1,10 +1,11 @@
 - name: Create network reports
   hosts: "{{ report_server }}"
   become: true
+  gather_facts: false
   vars:
     ansible_user: ansible
-    ansible_password: "{{ reports_password | default(omit) }}"
-    ansible_ssh_key_data: "{{ reports_ssh_key_data | default(omit) }}"
+    # ansible_password: "{{ reports_password | default(omit) }}"
+    ansible_ssh_key_data: "{{ reports_ssh_key_data }}"
     # ansible_user: "{{ reports_username | default(omit) }}"
     # ansible_password: "{{ reports_password | default(omit) }}"
     # ansible_ssh_key_data: "{{ reports_ssh_key_data | default(omit) }}"
@@ -12,5 +13,13 @@
     web_path: /var/www/html/reports/
 
   tasks:
+
+    - name: Print variables
+      ansible.builtin.debug:
+        msg: >
+          report_server: {{ report_server }}, web_path: {{ web_path }}
+          ansible_user: {{ ansible_user }}, ansible_password: {{ ansible_password }}
+          ansible_ssh_key_data: {{ ansible_ssh_key_data }}
+
     - name: Test Connectivity
       ansible.builtin.ping:
