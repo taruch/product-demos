@@ -32,6 +32,9 @@
   hosts: "{{ report_server }}"
   become: true
   vars:
+    ansible_user: "{{ reports_username | default(omit) }}"
+    ansible_password: "{{ reports_password | default(omit) }}"
+    ansible_ssh_key_data: "{{ reports_ssh_key_data | default(omit) }}"
     report_server: reports
     web_path: /var/www/html/reports/
 
