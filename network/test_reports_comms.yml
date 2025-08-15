@@ -18,8 +18,7 @@
       ansible.builtin.debug:
         msg: >
           report_server: {{ report_server }}, web_path: {{ web_path }}
-          ansible_user: {{ ansible_user }}, ansible_password: {{ ansible_password }}
-          ansible_ssh_key_data: {{ ansible_ssh_key_data }}
+          ansible_user: {{ ansible_user }}, ansible_ssh_key_data: {{ ansible_ssh_key_data }}
 
     - name: Test Connectivity
       ansible.builtin.ping:
