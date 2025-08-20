@@ -51,7 +51,7 @@
 
     - name: Print ansible_user
       ansible.builtin.debug:
-        msg: "{{ hostvars[network_switch]['ansible_user'] }}"
+        msg: "{{ hostvars[network_switch] }}"
       loop: "{{ groups['routers'] | sort }}"
       loop_control:
         loop_var: network_switch
