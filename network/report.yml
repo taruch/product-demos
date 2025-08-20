@@ -32,10 +32,10 @@
   hosts: "{{ report_server }}"
   become: true
   vars:
-    ansible_user: ansible
+    # ansible_user: ansible
     ansible_password: "{{ reports_password | default(omit) }}"
-    ansible_ssh_key_data: "{{ reports_ssh_key_data | default(omit) }}"
-    # ansible_user: "{{ reports_username | default(omit) }}"
+    # ansible_ssh_key_data: "{{ reports_ssh_key_data | default(omit) }}"
+    ansible_user: "{{ reports_username | default(omit) }}"
     # ansible_password: "{{ reports_password | default(omit) }}"
     # ansible_ssh_key_data: "{{ reports_ssh_key_data | default(omit) }}"
     report_server: reports
@@ -48,6 +48,7 @@
         msg: >
           report_server: {{ report_server }}, web_path: {{ web_path }}
           ansible_user: {{ ansible_user }}, ansible_password: {{ ansible_password }}
+          reports_user: {{ reports_username }}, reports_password: {{ reports_password }}
 
     - name: Print ansible_user
       ansible.builtin.debug:
