@@ -31,6 +31,7 @@
 - name: Create network reports
   hosts: "{{ report_server }}"
   become: true
+  gather_facts: false
   vars:
     ansible_password: "{{ _reports_password | default(omit) }}"
     ansible_user: "{{ _reports_username | default(omit) }}"
