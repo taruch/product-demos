@@ -32,13 +32,31 @@
   hosts: "{{ report_server }}"
   become: true
   vars:
-    ansible_user: "{{ reports_username | default(omit) }}"
+    ansible_user: ansible
     ansible_password: "{{ reports_password | default(omit) }}"
     ansible_ssh_key_data: "{{ reports_ssh_key_data | default(omit) }}"
+    # ansible_user: "{{ reports_username | default(omit) }}"
+    # ansible_password: "{{ reports_password | default(omit) }}"
+    # ansible_ssh_key_data: "{{ reports_ssh_key_data | default(omit) }}"
     report_server: reports
     web_path: /var/www/html/reports/
 
   tasks:
+
+    - name: Print variables
+      ansible.builtin.debug:
+        msg: >
+          report_server: {{ report_server }}, web_path: {{ web_path }}
+          ansible_user: {{ ansible_user }}, ansible_password: {{ ansible_password }}
+
+    - name: Print ansible_user
+      ansible.builtin.debug:
+        msg: "{{ hostvars[network_switch]['ansible_user'] }}"
+      loop: "{{ groups['routers'] | sort }}"
+      loop_control:
+        loop_var: network_switch
+
+
     - name: Build report server
       ansible.builtin.include_role:
         name: "{{ item }}"
